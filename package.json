@@ -26,7 +26,7 @@
     "dev:server": "nodemon ./server/server.js",
     "populate-db": "node ./server/scripts/populateDatabase.js",
     "server": "node ./server/server.js",
-    "scss": "sass --watch ./src/scss/main.scss:./src/index.css"
+    "start": "react-scripts start"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

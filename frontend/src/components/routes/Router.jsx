@@ -1,25 +1,26 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Navbar from "../NavBar";
+// import Navbar from "../NavBar";
 import Footer from "../Footer";
+import Header from "../Header";
 import Index from "../../pages/Index";
 import SignIn from "../../pages/SignIn";
 import User from "../../pages/User";
-import ProtectedRoute from "../../slices/ProtectedRoute";
+// import ProtectedRoute from "../../slices/ProtectedRoute";
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      <Header />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<SignIn />} />
         <Route
-          path="/profile"
+          path="/User"
           element={
-            <ProtectedRoute>
-              <User />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <User />
+            // </ProtectedRoute>
           }
         />
         <Route path="*" element={<div>Page not found</div>} />
