@@ -1,31 +1,31 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-// import Navbar from "../NavBar";
-import Footer from "../Footer";
-import Header from "../Header";
+import { Navigate } from "react-router-dom";
 import Index from "../../pages/Index";
-import SignIn from "../../pages/SignIn";
+import Userlogin from "../../pages/Userlogin";
 import User from "../../pages/User";
-// import ProtectedRoute from "../../slices/ProtectedRoute";
+import PropTypes from "prop-types";
 
 const Router = () => {
+  const ProtectedRoute = ({ element }) => {
+    return isAuthenticated() ? element : <Navigate to="/User" />;
+  };
+
+  ProtectedRoute.propTypes = {
+    element: PropTypes.element.isRequired,
+  };
+
+  const isAuthenticated = () => {
+    return sessionStorage.getItem("token") != null;
+  };
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route
-          path="/User"
-          element={
-            // <ProtectedRoute>
-            <User />
-            // </ProtectedRoute>
-          }
-        />
+        <Route path="/login" element={<Userlogin />} />
+        {/* <Route path="/User" element={<User />} /> */}
         <Route path="*" element={<div>Page not found</div>} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 };

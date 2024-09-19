@@ -1,5 +1,5 @@
-// import Header from "../components/Header";
-// import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import icon_chat from "../assets/img/icon-chat.png";
 import icon_money from "../assets/img/icon-money.png";
 import icon_security from "../assets/img/icon-security.png";
@@ -8,7 +8,7 @@ import icon_security from "../assets/img/icon-security.png";
 const Index = () => {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <main>
         <div className="hero">
           <section className="hero-content">
@@ -50,7 +50,7 @@ const Index = () => {
           </div>
         </section>
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,3 @@
-// import Button from "../../components/Button";
-// import Logo from "../../components/Logo";
-// import "../index.css";
 import header_logo from "../assets/img/argentBankLogo.png";
 import React from "react";
 const Header = () => (
