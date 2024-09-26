@@ -16,9 +16,9 @@ function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    // const newToken = sessionStorage.getItem("token");
-    // dispatch(setToken(newToken)); // Mise à jour du token dans l'état
-
+    /*   const newToken = sessionStorage.getItem("token");
+    dispatch(setToken(newToken)); // Mise à jour du token dans l'état
+ */
     try {
       const response = await login({ email, password });
       const { token, userName, firstName, lastName } = response.data;
@@ -47,7 +47,10 @@ function SignIn() {
   };
   return (
     <>
-      <Header />
+      <Header
+        connexion="main-nav-item display-flex "
+        deconnexion="main-nav-item display-none"
+      />
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>

@@ -26,12 +26,20 @@ export const api = createApi({
     signup: builder.mutation({
       query: (userData) => ({
         url: "/signup",
-        method: "POST",
+        method: "POST}),",
         body: userData,
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
       }),
     }),
     getProfile: builder.query({
-      query: () => "/profile",
+      query: (userData) => ({
+        url: "/profile",
+        method: "POST",
+        body: userData,
+      }),
     }),
     updateProfile: builder.mutation({
       query: (updatedProfile) => ({

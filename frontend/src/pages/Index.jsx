@@ -8,7 +8,10 @@ import icon_security from "../assets/img/icon-security.png";
 const Index = () => {
   return (
     <>
-      <Header />
+      <Header
+        connexion="main-nav-item display-flex "
+        deconnexion="main-nav-item display-none"
+      />
       <main>
         <div className="hero">
           <section className="hero-content">
