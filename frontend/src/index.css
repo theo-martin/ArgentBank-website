@@ -289,3 +289,12 @@ body {
     width: 200px;
   }
 }
+.display-none {
+  display: none;
+}
+.display-flex {
+  display: flex;
+}
+.cursor {
+  cursor: pointer;
+}

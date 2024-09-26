@@ -23,7 +23,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Userlogin />} />
-        {/* <Route path="/User" element={<User />} /> */}
+        <Route path="/user" element={<ProtectedRoute element={<User />} />} />
         <Route path="*" element={<div>Page not found</div>} />
       </Routes>
     </BrowserRouter>
