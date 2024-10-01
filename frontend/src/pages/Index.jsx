@@ -1,8 +1,8 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import icon_chat from "../assets/img/icon-chat.png";
-import icon_money from "../assets/img/icon-money.png";
-import icon_security from "../assets/img/icon-security.png";
+import icon_chat from "../assets/img/icon-chat.webp";
+import icon_money from "../assets/img/icon-money.webp";
+import icon_security from "../assets/img/icon-security.webp";
 // import "./style.scss";
 
 const Index = () => {

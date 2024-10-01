@@ -19,7 +19,6 @@ export const api = createApi({
         body: credentials,
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
       }),
     }),
@@ -30,7 +29,6 @@ export const api = createApi({
         body: userData,
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
       }),
     }),
@@ -48,7 +46,6 @@ export const api = createApi({
         body: updatedProfile,
         headers: {
           "Content-Type": "application/json",
-          /* Authorization: `Bearer ${token}`, */
         },
       }),
     }),
@@ -61,4 +58,5 @@ export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } = api;
+
 export default api;

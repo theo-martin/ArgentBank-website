@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../reducer/UserSlice"; //
 import { useLoginMutation } from "../components/api";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { setToken } from "../reducer/authSlice";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [login, { isLoading, isError, error }] = useLoginMutation();
+  const [rememberMe, setRememberMe] = useState(false);
+  // Récupérer les données de l'utilisateur depuis le stockage local
+  useEffect(() => {
+    const storedData = localStorage.getItem("userData");
+    if (storedData) {
+      const { email, password, rememberMe } = JSON.parse(storedData);
+      setEmail(email);
+      setPassword(password);
+      setRememberMe(rememberMe);
+    }
+  }, []);
 
+  // Stocker les données de l'utilisateur dans le stockage local
+  useEffect(() => {
+    if (rememberMe) {
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({ email, password, rememberMe })
+      );
+    } else {
+      localStorage.removeItem("userData");
+    }
+  }, [email, password, rememberMe]);
   const handleSignIn = async (e) => {
     e.preventDefault();
-
-    /*   const newToken = sessionStorage.getItem("token");
-    dispatch(setToken(newToken)); // Mise à jour du token dans l'état
- */
     try {
       const response = await login({ email, password });
       const { token, userName, firstName, lastName } = response.data;
@@ -77,7 +94,12 @@ function SignIn() {
               />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <label htmlFor="remember-me">Se souvenir de moi</label>
             </div>{" "}
              

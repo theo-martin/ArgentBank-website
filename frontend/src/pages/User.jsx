@@ -1,29 +1,32 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateUsername } from "../reducer/UserSlice";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import api from "../components/api";
-
+import Transaction from "../components/Transaction";
 const User = () => {
-  //   const [isModalOpen, setIsModalOpen] = useState(false);
-  //   const [newUsername, setNewUsername] = useState("");
-  const { data } = api.useGetProfileQuery();
-  const { dataEdit, refetch } = api.useUpdateProfileMutation();
+  const dispatch = useDispatch();
+  const { data, isLoading: isProfileLoading } = api.useGetProfileQuery();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updateProfile, { data: updatedProfile }] =
+    api.useUpdateProfileMutation();
+  const userId = data?.body.id;
   const lastName = data?.body.lastName;
   const firstName = data?.body.firstName;
-  const userName = data?.body.userName;
-  //   const userNameEdit = dataEdit?.body.userName;
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    if (data) {
+      setUserName(data.body.userName);
+    }
+  }, [data]);
   console.log("data", data);
-  console.log("Username:", firstName, lastName);
-
+  console.log("full name:", firstName, lastName);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUsername, setNewUsername] = useState(
-    dataEdit?.body?.userName || ""
-  ); // Initialiser avec la valeur initiale
-  // ...
-
-  useEffect(() => {
-    // Plus besoin de mettre à jour newUsername ici
-  }, [data]);
+    isProfileLoading ? "" : data?.body.userName || ""
+  );
+  useEffect(() => {}, [updatedProfile]);
   const handleEditClick = () => {
     setIsModalOpen(true);
   };
@@ -32,16 +35,35 @@ const User = () => {
     setIsModalOpen(false);
   };
 
-  const handleUpdateUsername = () => {
-    api
-      .updateProfile({ userNameEdit: newUsername })
-      .then(() => {
-        setIsModalOpen(false);
-        refetch(); // Refetch
-      })
-      .catch((error) => {
-        console.error("erreur modification username:", error);
-      });
+  const handleUpdateUsername = async (newUsername) => {
+    setIsUpdating(true); // Indique que la mise à jour est en cours
+
+    try {
+      const response = await updateProfile({ userName: newUsername });
+
+      // Extraire les données de la réponse
+      const updatedUserName = response?.data?.userName;
+
+      // Mettre à jour l'état du composant avec le nouveau nom d'utilisateur
+      dispatch(
+        updateUsername({ userId: userId, newUsername: updatedUserName })
+      );
+      setNewUsername(updatedUserName);
+      setIsModalOpen(false);
+      // Afficher un message de succès
+      alert("Votre nom d'utilisateur a été mis à jour avec succès.");
+    } catch (error) {
+      // Gérer les erreurs
+      console.error(
+        "Erreur lors de la mise à jour du nom d'utilisateur:",
+        error
+      );
+      alert(
+        "Une erreur s'est produite lors de la mise à jour de votre nom d'utilisateur."
+      );
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   return (
@@ -69,45 +91,35 @@ const User = () => {
                   type="text"
                   id="new-username"
                   value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
+                  onChange={(e) => {
+                    setNewUsername(e.target.value);
+                    console.log("Nouvelle valeur saisie:", e.target.value); // Pour déboguer
+                  }}
                 />
-                <button onClick={handleUpdateUsername}>Save</button>  
-                <button onClick={handleCloseModal}>Cancel</button>
+                <button onClick={() => handleUpdateUsername(newUsername)}>
+                  Save
+                </button>
+                 <button onClick={handleCloseModal}>Cancel</button>
               </div>
             </div>
           )}
         </div>
         <h2 className="sr-only">Accounts</h2>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-            <p className="account-amount">$2,082.79</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-            <p className="account-amount">$10,928.42</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-            <p className="account-amount">$184.30</p>
-            <p className="account-amount-description">Current Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
+        <Transaction
+          title="Argent Bank Checking (x8349)"
+          amount="$2,082.79"
+          description="Available Balance"
+        />
+        <Transaction
+          title="Argent Bank Savings (x6712)"
+          amount="$10,928.42"
+          description="Available Balance"
+        />
+        <Transaction
+          title="Argent Bank Credit Card (x8349)"
+          amount="$184.30"
+          description="Current Balance"
+        />
       </main>
       <Footer />
     </>
