@@ -1,4 +1,4 @@
-import header_logo from "../assets/img/argentBankLogo.png";
+import header_logo from "../assets/img/argentBankLogo.webp";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 export default function Header(props) {
