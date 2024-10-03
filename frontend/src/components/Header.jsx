@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function Header(props) {
   const navigate = useNavigate();
   const Logout = () => {
-    sessionStorage.removeItem("token"); //supprime le token
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user"); //supprime le token
     navigate("/");
   };
   return (
