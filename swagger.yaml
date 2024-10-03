@@ -117,7 +117,7 @@ paths:
           description: transaction Payload
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/transaction"
       produces:
         - application/json
       responses:
@@ -145,7 +145,7 @@ paths:
           description: info_transaction Payload
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/info_transaction"
       produces:
         - application/json
       responses:
@@ -213,4 +213,20 @@ definitions:
     type: object
     properties:
       userName:
+        type: string
+  transaction:
+    type: object
+    properties:
+      montant:
+        type: string
+      destinataire:
+        type: string
+      libellé:
+        type: string
+  info_transaction:
+    type: object
+    properties:
+      tag_transaction:
+        type: string
+      memo_transaction:
         type: string

@@ -2,11 +2,20 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateUsername } from "../reducer/UserSlice";
 import Header from "../components/Header";
+import { setUser } from "../reducer/UserSlice";
 import Footer from "../components/Footer";
 import api from "../components/api";
 import Transaction from "../components/Transaction";
+
 const User = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      dispatch(setUser(user));
+    }
+  }, [dispatch]);
   const { data, isLoading: isProfileLoading } = api.useGetProfileQuery();
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateProfile, { data: updatedProfile }] =
@@ -15,18 +24,18 @@ const User = () => {
   const lastName = data?.body.lastName;
   const firstName = data?.body.firstName;
   const [userName, setUserName] = useState("");
+
   useEffect(() => {
     if (data) {
       setUserName(data.body.userName);
     }
   }, [data]);
-  console.log("data", data);
-  console.log("full name:", firstName, lastName);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newUsername, setNewUsername] = useState(
     isProfileLoading ? "" : data?.body.userName || ""
   );
-  useEffect(() => {}, [updatedProfile]);
+  // useEffect(() => {}, [updatedProfile]);
+
   const handleEditClick = () => {
     setIsModalOpen(true);
   };
@@ -93,7 +102,7 @@ const User = () => {
                   value={newUsername}
                   onChange={(e) => {
                     setNewUsername(e.target.value);
-                    console.log("Nouvelle valeur saisie:", e.target.value); // Pour déboguer
+                    // console.log("Nouvelle valeur saisie:", e.target.value); // Pour déboguer
                   }}
                 />
                 <button onClick={() => handleUpdateUsername(newUsername)}>

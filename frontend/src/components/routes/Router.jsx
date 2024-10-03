@@ -1,23 +1,23 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Index from "../../pages/Index";
 import Userlogin from "../../pages/Userlogin";
 import User from "../../pages/User";
 import PropTypes from "prop-types";
+import { selectToken } from "../../reducer/UserSlice";
 
 const Router = () => {
+  const token = useSelector(selectToken);
   const ProtectedRoute = ({ element }) => {
-    return isAuthenticated() ? element : <Navigate to="/User" />;
+    console.log("Token in ProtectedRoute:", token);
+    return token ? element : <Navigate to="/user" replace={true} />;
   };
 
   ProtectedRoute.propTypes = {
     element: PropTypes.element.isRequired,
   };
 
-  const isAuthenticated = () => {
-    return sessionStorage.getItem("token") != null;
-  };
   return (
     <BrowserRouter>
       <Routes>
